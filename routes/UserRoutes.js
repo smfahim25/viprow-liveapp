@@ -418,6 +418,7 @@ router.get(
         streamEnd,
         Stream,
         scheduleId,
+        schedule,
         moment,
         parsedPlayerIndex,
       });
@@ -466,6 +467,7 @@ router.get("/:scheduleId/watch/:stream", async (req, res, next) => {
       category: category.name,
       embed,
       scheduleId,
+      schedule,
       findTimeLeft,
       Stream,
       moment,

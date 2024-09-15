@@ -81,7 +81,8 @@
           <%- ads ? ads.top : null %>
         </div>
         <div class="col-lg-9">
-          <% if (!findTimeLeft(Stream.startTime)) { %>
+          <% if (!findTimeLeft(Stream.startTime) ||
+          (schedule.permaDelete===true||schedule.hidden===true)) { %>
           <div class="ratio ratio-16x9">
             <script>
               var pwparams = {

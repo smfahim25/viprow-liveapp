@@ -132,7 +132,8 @@
         </div>
 
         <div class="col-lg-9">
-          <% if (streamEnd(Stream.endTime)) { %>
+          <% if (streamEnd(Stream.endTime)||
+          (schedule.permaDelete===true||schedule.hidden===true)) { %>
           <!-- Fake Player Page -->
           <div class="fake-player text-center">
             <h1>Stream has ended</h1>
