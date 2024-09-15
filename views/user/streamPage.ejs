@@ -132,15 +132,10 @@
         </div>
 
         <div class="col-lg-9">
-          <% if (streamEnd(Stream.endTime)||
-          (schedule.permaDelete===true||schedule.hidden===true)) { %>
-          <!-- Fake Player Page -->
+          <% if ((schedule.permaDelete === true || schedule.hidden ===
+          true)||!findTimeLeft(Stream.startTime)) { %>
+          <!-- Show fake player if the schedule is permanently deleted or hidden -->
           <div class="fake-player text-center">
-            <h1>Stream has ended</h1>
-            <p>
-              The stream you're trying to watch has ended. Thank you for
-              watching!
-            </p>
             <div class="ratio ratio-16x9">
               <script>
                 var pwparams = {
@@ -156,6 +151,32 @@
               <script src="https://cdn.performit.xyz/scripts/nwm-fp.min.js"></script>
             </div>
           </div>
+
+          <% } else if (streamEnd(Stream.endTime)) { %>
+          <div class="fake-player text-center">
+            <% if (findTimeLeft(Stream.startTime)) { %>
+            <h1>Stream has ended</h1>
+            <p>
+              The stream you're trying to watch has ended. Thank you for
+              watching!
+            </p>
+            <% } %>
+            <div class="ratio ratio-16x9">
+              <script>
+                var pwparams = {
+                  url: "https://trk.highqualitymusic.club/82aeaebd-8181-4e07-b56e-8e495866a2ed",
+                  category: "General",
+                  title: "<%= title %> Stream",
+                  showextralinks: "false",
+                  width: "1400",
+                  height: "600",
+                  vid: "fe1a8ee7-b312-4065-96c8-d0e28b3359c7",
+                };
+              </script>
+              <script src="https://cdn.performit.xyz/scripts/nwm-fp.min.js"></script>
+            </div>
+          </div>
+
           <% } else { %>
           <!-- Video Embedding -->
           <div class="ratio ratio-16x9">
