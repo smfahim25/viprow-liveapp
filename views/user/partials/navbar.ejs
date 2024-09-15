@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-xl bg-body-tertiary">
+  <div class="container-fluid">
+    <div class="site-logo pt-2 pb-2"> <a class="navbar-brand fw-bold pe-5" href="/"> <img src="/uploads/logo.png" alt="logo" width="200px" height="60px"></a></div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav d-flex gap-2">
+        <% categories.slice(0, 8).forEach((category)=>{ %>
+
+        <li class="nav-item">
+          <a class="nav-link d-flex justify-content-center align-items-center gap-1" href="/category/<%= category.urlString%>">
+            <img src="<%= category.categoryLogo %>" alt="<%= category.name %>" width="32" height="auto" />
+            <%= category.name %>
+          </a>
+        </li>
+
+        <% }) %>
+        <% if (categories.length > 8) { %>
+        <li class="nav-item dropdown">
+          <a class="nav-link d-flex justify-content-center align-items-center gap-1 dropdown-toggle" href="#" id="moreCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            More...
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="moreCategories">
+            <% categories.slice(8).forEach((category)=>{ %>
+            <li>
+              <a class="dropdown-item" href="/category/<%= category.urlString%>">
+                <img src="<%= category.categoryLogo %>" alt="<%= category.name %>" width="32" height="auto" />
+                <%= category.name %>
+              </a>
+            </li>
+            <% }) %>
+          </ul>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- rest of your index page content -->

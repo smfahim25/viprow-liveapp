@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/*
+Disallow: /live/*
+
+Sitemap: https://viprow1.com/sitemap.xml

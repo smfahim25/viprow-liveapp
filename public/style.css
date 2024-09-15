@@ -1,0 +1,14 @@
+.collapsing {
+    -webkit-transition: none;
+    transition: none;
+    display: none;
+  }
+
+  .btn-outline-info:hover {
+    color: white;
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0 0.08rem
+      rgba(var(--bs-info-rgb), var(--bs-border-opacity)) !important;
+  }

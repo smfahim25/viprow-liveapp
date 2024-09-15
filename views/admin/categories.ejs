@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <title>Admin - Categories</title>
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/media/favicons/favicon-192x192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/media/favicons/apple-touch-icon-180x180.png"
+    />
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- OneUI framework -->
+
+    <link
+    rel="stylesheet"
+    href="/assets/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css"
+  />
+
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.min.css" />
+  </head>
+
+  <body>
+    <!-- Page Container -->
+
+    <div
+      id="page-container"
+      class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-narrow"
+    >
+      <%- include("./partials/Sidebar.ejs") %>
+      <!-- END Sidebar -->
+
+      <!-- Header -->
+      <%- include("./partials/Header.ejs") %>
+
+      <!-- END Header -->
+
+      <!-- Main Container -->
+      <main id="main-container">
+        <!-- Hero -->
+        <div class="bg-body-light">
+          <div class="content content-full">
+            <div
+              class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2"
+            >
+              <div class="flex-grow-1">
+                <h1 class="h3 fw-bold mb-1">Categories</h1>
+                <h2 class="fs-base lh-base fw-medium text-muted mb-0">
+                  Manage Categories
+                </h2>
+              </div>
+              <nav
+                class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3"
+                aria-label="breadcrumb"
+              >
+                <ol class="breadcrumb breadcrumb-alt">
+                  <li class="breadcrumb-item">
+                    <a href="/admin" class="link-fx">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item">Categories</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- END Hero -->
+
+        <!-- Page Content -->
+        <div class="content">
+          <div class="row">
+            <% if(messages.success){ %>
+
+            <div class="col-12">
+              <div
+                class="alert alert-success d-flex align-items-center"
+                role="alert"
+              >
+                <div class="flex-shrink-0">
+                  <i class="fa fa-fw fa-check"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <p class="mb-0"><%= messages.success %></p>
+                </div>
+              </div>
+            </div>
+
+            <% } %>
+
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-alt-primary push"
+                data-bs-toggle="modal"
+                data-bs-target="#new-category-modal"
+              >
+                Add New Category / Sport
+              </button>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <% if(categories.length){ %>
+            <div class="col-12">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                  <h3 class="block-title">
+                    Total Categories : <%= categories.length %>
+                  </h3>
+                  <div class="block-options">
+                    <div class="block-options-item"></div>
+                  </div>
+                </div>
+                <div class="block-content p-3">
+                  <div class="table-responsive p-1">
+                    <table
+                      class="table table-vcenter table-striped table-hover"
+                      id="myTable"
+                    >
+                      <thead>
+                        <tr>
+                          <th style="width: 100px">#</th>
+                          <th>Name</th>
+                          <th>Category Logo</th>
+                          <th>Logo</th>
+                          <th class="text-center" style="width: 100px">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% categories.forEach((category, index)=>{ %>
+
+                        <tr>
+                          <th><%= index+1 %></th>
+                          <td><%= category.name %></td>
+                          <td>
+                            <img
+                              src="<%= category.categoryLogo %>"
+                              width="30px"
+                              height="auto"
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src="<%= category.logo %>"
+                              width="30px"
+                              height="auto"
+                            />
+                          </td>
+                          <td class="text-center">
+                            <div class="btn-group">
+                              <button
+                                type="button"
+                                class="btn btn-sm btn-alt-secondary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#edit-category-modal"
+                                onclick="getCategory(`<%= category.name %>`, `<%= category._id %>` )"
+                              >
+                                <i class="fa fa-fw fa-pencil-alt"></i>
+                              </button>
+                              <a
+                                href="/admin/delete-category/<%= category._id %>"
+                                class="btn btn-sm btn-alt-secondary"
+                              >
+                                <i class="fa fa-fw fa-times"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }else{ %>
+
+            <div class="col-12">
+              <div
+                class="alert alert-danger d-flex align-items-center justify-content-between"
+                role="alert"
+              >
+                <div class="flex-shrink-0">
+                  <i class="fa fa-fw fa-times-circle"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <p class="mb-0">Categories Not Found</p>
+                </div>
+              </div>
+            </div>
+
+            <% } %>
+          </div>
+        </div>
+        <!-- END Page Content -->
+      </main>
+      <!-- END Main Container -->
+
+      <!-- Footer -->
+      <%- include("./partials/Footer.ejs") %>
+      <!-- END Footer -->
+    </div>
+    <!-- END Page Container -->
+
+    <!--
+        OneUI JS
+
+        Core libraries and functionality
+        webpack is putting everything together at /assets/_js/main/app.js
+    -->
+
+    <div class="modal" id="new-category-modal">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="block block-rounded block-transparent mb-0">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">Add New Category</h3>
+              <div class="block-options">
+                <button
+                  type="button"
+                  class="btn-block-option"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <form
+              action="/admin/new-category"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="block-content">
+                <div class="mb-4">
+                  <label class="form-label"
+                    >Category Logo <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="categoryLogo"
+                    required
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label"
+                    > Logo <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="logo"
+                    required
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label"
+                    >Category Name <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    placeholder="Football ..."
+                    required
+                  />
+                </div>
+              </div>
+              <div
+                class="block-content block-content-full text-end bg-body rounded"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-alt-secondary me-1"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-sm btn-primary">
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="edit-category-modal">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="block block-rounded block-transparent mb-0">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">Edit Category</h3>
+              <div class="block-options">
+                <button
+                  type="button"
+                  class="btn-block-option"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <form
+              action=""
+              method="post"
+              enctype="multipart/form-data"
+              id="editForm"
+            >
+              <div class="block-content">
+                <div class="mb-4">
+                  <label class="form-label"
+                    >Category Logo <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="categoryLogo"
+                    required
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label"
+                    > Logo <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="logo"
+                    required
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label"
+                    >Category Name <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    placeholder="Football ..."
+                    required
+                    id="name"
+                  />
+                </div>
+              </div>
+              <div
+                class="block-content block-content-full text-end bg-body rounded"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-alt-secondary me-1"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-sm btn-primary">
+                  Edit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/oneui.app.min.js"></script>
+    <script src="/assets/js/lib/jquery.min.js"></script>
+
+    <script src="/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+      new DataTable("#myTable");
+
+      function getCategory(data, scheduleId) {
+        document
+          .getElementById("editForm")
+          .setAttribute("action", `/admin/edit-category/${scheduleId}`);
+
+        document.getElementById("name").value = data;
+      }
+    </script>
+  </body>
+</html>

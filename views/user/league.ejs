@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Watch <%= league %> Live Streams Free - Top Quality <%= league %> Streaming</title>
+    <meta name="description" content="Watch <%= league %> live streams for free in HD! Enjoy seamless streaming, live scores, and top-quality <%= league %> action with VIPBox <%= league %> and more. Don't miss any game!">
+    <meta name="keywords" content="<%= league %> live streaming free, <%= league %> live stream, <%= league %> live, live <%= league %> scores, <%= league %> live stream free, watch <%= league %> live free, free <%= league %> streams live, <%= league %> live stream free online, <%= league %> live stream reddit, <%= league %> hockey games live, watch <%= league %> live for free, <%= league %> free live streaming, vipbox <%= league %>, vip <%= league %>, <%= league %> vipbox">
+    <meta name="robots" content="index, follow"/>
+    <meta name="googlebot" content="index,follow"/>
+    <meta property="og:title" content="<%= league %> Online Live Streaming HD - VIPRow1">
+    <meta property="og:description" content="Watch <%= league %> live streams for free in HD! Enjoy seamless streaming, live scores, and top-quality <%= league %> action with VIPBox <%= league %> and more. Don't miss any game!">
+    <meta property="og:image" content="https://viprow1.com/uploads/logo.png">
+    <meta property="og:url" content="https://viprow1.com/">
+    <meta property="og:type" content="website"> 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= league %> Online Live Streaming HD - VIPRow1">
+    <meta name="twitter:description" content="Watch <%= league %> live streams for free in HD! Enjoy seamless streaming, live scores, and top-quality <%= league %> action with VIPBox <%= league %> and more. Don't miss any game!">
+    <meta name="twitter:image" content="https://viprow1.com/uploads/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon/favicon-16x16.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.38/moment-timezone-with-data.min.js"></script>
+  </head>
+  <body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <div class="container-fluid mt-2 mb-5">
+      <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+          <h3>Watch <%= league %> Live Streams Free</h3>
+        </div>
+
+        <div class="col-12 my-4">
+          <button
+            class="btn btn-outline-info fs-5 fw-bold rounded-5"
+            id="clock"
+            style="visibility: hidden"
+          >
+            Time
+          </button>
+        </div>
+
+        <div class="col-lg-8 mb-5">
+          <%- include("./partials/search.ejs") %> <%-
+          include("./partials/main.ejs") %>
+        </div>
+
+        <div class="col-md-4">
+          <%- include("./partials/sidebarContent.ejs") %>
+        </div>
+      </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(".link-dark, .match").click(function () {
+        const link = $(this).data("href");
+
+        window.location.href = link;
+      });
+
+      const clockDisplay = document.getElementById("clock");
+
+      function updateClock() {
+        // Get current time in the UK timezone
+        const ukTime = moment.tz("Europe/London").format("DD-MM-YYYY HH:mm:ss");
+
+        clockDisplay.textContent = "UK Time: " + ukTime;
+        clockDisplay.style.visibility = "visible";
+      }
+
+      // Update the clock initially
+      updateClock();
+
+      // Update the clock every second
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>

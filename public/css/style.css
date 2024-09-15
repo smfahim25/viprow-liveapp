@@ -1,0 +1,160 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Space Grotesk", sans-serif;
+  text-decoration: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #27374d;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-container {
+  border-bottom: 1px solid #dde6ed;
+  width: 90%;
+  color: #dde6ed;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-container span {
+  font-size: 30px;
+  font-weight: bolder;
+  color: #dde6ed;
+}
+
+.nav-container span:hover {
+text-decoration: underline;
+}
+
+.main-container {
+  margin-top: 40px;
+}
+
+.lt-posts {
+  font-size: 25px;
+  font-weight: bolder;
+  color: #dde6ed;
+}
+
+.posts-container {
+  margin-top: 30px;
+  margin-bottom: 100px;
+}
+
+.card {
+  margin-bottom: 40px;
+  transition: transform 0.2s ease-out;
+}
+
+.card:hover {
+  transform: translate(0, -8px);
+}
+
+.post-title {
+  line-height: 1;
+  font-size: 23px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: #dde6ed;
+}
+
+.post-description {
+  line-height: 1;
+  margin-top: 10px;
+  color: #dde6ed;
+}
+
+.post-additional {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #dde6ed;
+}
+
+footer {
+  margin-top: auto;
+  background-color: #526d82;
+  color: #dde6ed;
+  height: 150px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+
+.nav-links {
+  color: #dde6ed;
+  text-decoration: none;
+}
+
+.nav-links:hover {
+  color: rgb(204, 204, 204);
+}
+
+.post-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 250px;
+  margin-top: 30px;
+}
+
+.post-content {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #dde6ed;
+  white-space: pre-line;
+}
+
+.about-container {
+  display: flex;
+  justify-content: center;
+}
+
+.about-content {
+  margin-top: 20px;
+  margin-bottom: 80px;
+  color: #dde6ed;
+
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-texts {
+  height: 45px;
+  font-size: 20px;
+  padding-left: 8px;
+}
+
+textarea {
+  font-size: 18px;
+  padding-left: 8px;
+}
+
+.submit-btn {
+  width: 150px;
+  height: 40px;
+}
+
+.ratio img {
+  border-radius: 4px;
+}

@@ -1,0 +1,74 @@
+<% if(schedules.length > 0){ %>
+
+
+<% schedules.forEach((schedule)=>{ %>
+
+<div class="col-12 mb-2">
+  <button class="btn btn-info text-white w-100 rounded-5 fw-bold">
+    <%= moment(schedule.date).format('MMM D, YYYY') %>
+  </button>
+</div>
+
+<% schedule.schedule.forEach((stream)=>{ %>
+
+<div class="col-12 mb-2">
+  <a class="btn btn-light border shadow-sm w-100 rounded-5 d-flex align-items-center" <% if (findTimeLeft(stream.startTime)) { %> data-bs-toggle="collapse" data-bs-target="#<%= stream._id %>" <% } %> href="/<%= schedule.objId %>/watch/<%= stream.urlString %>" role="button">
+
+
+    <span class="me-2">
+      <img src="<%= stream.category.logo %>" width="30" height="auto" alt="<%= stream.category.name %>" />
+    </span>
+
+    <span class="me-2"> <%= moment(stream.startTime).format("HH:mm") %> </span>
+
+    <span class="text-muted text-nowrap d-none d-lg-block ">
+      <%= stream.league.name %> | &nbsp;
+    </span>
+
+
+
+    <span class="text-decoration-none text-dark ">
+      <%= stream.title %> <%- findTimeLeft(stream.startTime) ? `<img src="/live.gif">` : null %>
+    </span>
+
+
+
+  </a>
+
+  <% if (findTimeLeft(stream.startTime)) { %>
+
+  <div class="collapse mt-2" id="<%= stream._id %>">
+    <div class="card card-body rounded-4">
+      <h4>VIP HD Streams</h4>
+      <div>
+        <% stream.links.forEach((link, index)=>{ %>
+
+        <a href="/<%= schedule.objId %>/watch/<%= stream.urlString %>/stream-<%= index+1 %>" class="btn btn-outline-info m-1 fw-bold rounded-4">
+          <%= link.name %>
+        </a>
+
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+  <% } %>
+</div>
+
+<% }) %>
+
+<% }) %>
+
+
+<% }else { %>
+
+  <div class="col-12 mb-2">
+    <button class="btn btn-info text-white w-100 rounded-5 fw-bold">
+      No Data Found
+    </button>
+  </div>
+  <% } %>
+
+
+
+

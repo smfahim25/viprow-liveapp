@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <title>Admin - Login</title>
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/media/favicons/favicon-192x192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/media/favicons/apple-touch-icon-180x180.png"
+    />
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- OneUI framework -->
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.min.css" />
+
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="/assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+  </head>
+
+  <body>
+    <!-- Page Container -->
+    <div id="page-container">
+      <!-- Main Container -->
+      <main id="main-container">
+        <!-- Page Content -->
+        <div class="hero-static d-flex align-items-center">
+          <div class="content">
+            <div class="row justify-content-center push">
+              <div class="col-md-8 col-lg-6 col-xl-4">
+                <!-- Sign In Block -->
+                <div class="block block-rounded mb-0">
+                  <div class="block-header block-header-default">
+                    <h3 class="block-title">Sign In</h3>
+                  </div>
+                  <div class="block-content">
+                    <% if(messages.danger){ %>
+
+                    <div
+                      class="alert alert-danger alert-dismissible d-flex align-items-center"
+                      role="alert"
+                    >
+                      <p class="mb-0">
+                        <b> Error : </b>
+
+                        <%= messages.danger%>
+                      </p>
+                    </div>
+
+                    <% } %>
+
+                    <div class="p-sm-3 px-lg-4 px-xxl-5 py-lg-5">
+                      <h1 class="h2 mb-1">Admin-Panel</h1>
+                      <p class="fw-medium text-muted">Welcome, please login.</p>
+
+                      <form
+                        class="js-validation-signin"
+                        action="/admin/login"
+                        method="POST"
+                      >
+                        <div class="py-3">
+                          <div class="mb-4">
+                            <input
+                              type="text"
+                              class="form-control form-control-alt form-control-lg"
+                              id="login-username"
+                              name="username"
+                              placeholder="Username"
+                            />
+                          </div>
+                          <div class="mb-4">
+                            <input
+                              type="password"
+                              class="form-control form-control-alt form-control-lg"
+                              id="login-password"
+                              name="password"
+                              placeholder="Password"
+                            />
+                          </div>
+                        </div>
+                        <div class="row mb-4">
+                          <div class="col-md-6 col-xl-5">
+                            <button
+                              type="submit"
+                              class="btn w-100 btn-alt-primary"
+                            >
+                              <i
+                                class="fa fa-fw fa-sign-in-alt me-1 opacity-50"
+                              ></i>
+                              Sign In
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <!-- END Sign In Form -->
+                    </div>
+                  </div>
+                </div>
+                <!-- END Sign In Block -->
+              </div>
+            </div>
+            <div class="fs-sm text-muted text-center">
+              <strong>Admin-Panel </strong> &copy;
+              <span data-toggle="year-copy"></span>
+            </div>
+          </div>
+        </div>
+        <!-- END Page Content -->
+      </main>
+      <!-- END Main Container -->
+    </div>
+    <!-- END Page Container -->
+
+    <!--
+        OneUI JS
+
+        Core libraries and functionality
+        webpack is putting everything together at /assets/_js/main/app.js
+    -->
+    <script src="/assets/js/oneui.app.min.js"></script>
+  </body>
+</html>

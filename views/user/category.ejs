@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= category %> Streams | Watch Live <%= category %> Free Streaming - VIPRow1</title>
+  <meta name="description" content="Watch <%= category %> live streaming online for free! Enjoy seamless, high-quality streams on VIPBox and Reddit. Never miss a game with <%= category %> live streaming.">
+  <meta name="keywords" content="<%= category %> streams, <%= category %> stream, <%= category %> streams reddit, streaming for <%= category %>, reddit <%= category %> streams, <%= category %> reddit streams, free <%= category %> streams, stream east <%= category %>, <%= category %> live stream, free <%= category %> live stream, directv stream box, free <%= category %> live stream app, vip <%= category %>, vip box <%= category %>, vipbox <%= category %>,">
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index,follow" />
+  <meta property="og:title" content="<%= category %> Streams | Watch Live <%= category %> Free Streaming - VIPRow1">
+  <meta property="og:description" content="Watch <%= category %> live streaming online for free! Enjoy seamless, high-quality streams on VIPBox and Reddit. Never miss a game with <%= category %> live streaming.">
+  <meta property="og:image" content="https://viprow1.com/uploads/logo.png">
+  <meta property="og:url" content="https://viprow1.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= category %> Streams | Watch Live <%= category %> Free Streaming - VIPRow1">
+  <meta name="twitter:description" content="Watch <%= category %> live streaming online for free! Enjoy seamless, high-quality streams on VIPBox and Reddit. Never miss a game with <%= category %> live streaming.">
+  <meta name="twitter:image" content="https://viprow1.com/uploads/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon/favicon-16x16.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.38/moment-timezone-with-data.min.js"></script>
+</head>
+
+<body>
+  <%- include("./partials/navbar.ejs") %>
+
+  <div class="container-fluid mt-2 mb-5">
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+        <h3>Watch Live <%= category %> Free Streaming</h3>
+      </div>
+
+      <div class="col-12 my-4">
+        <button class="btn btn-outline-info fs-5 fw-bold rounded-5" id="clock" style="visibility: hidden">
+          Time
+        </button>
+      </div>
+
+      <div class="col-lg-8 mb-5">
+        <%- include("./partials/search.ejs") %> <%-
+          include("./partials/main.ejs") %>
+      </div>
+
+      <div class="col-lg-4">
+        <%- include("./partials/sidebarContent.ejs") %>
+      </div>
+    </div>
+  </div>
+  <%- include("./partials/footer.ejs") %>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <script>
+    $(".link-dark, .match").click(function() {
+      const link = $(this).data("href");
+
+      window.location.href = link;
+    });
+
+    const clockDisplay = document.getElementById("clock");
+
+    function updateClock() {
+      // Get current time in the UK timezone
+      const ukTime = moment.tz("Europe/London").format("DD-MM-YYYY HH:mm:ss");
+
+      clockDisplay.textContent = "UK Time: " + ukTime;
+      clockDisplay.style.visibility = "visible";
+    }
+
+    // Update the clock initially
+    updateClock();
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+
+</html>

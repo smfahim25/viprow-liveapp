@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <title>Admin - Manage-Schedule</title>
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/media/favicons/favicon-192x192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/media/favicons/apple-touch-icon-180x180.png"
+    />
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- OneUI framework -->
+
+    <link
+      rel="stylesheet"
+      href="/assets/js/plugins/select2/css/select2.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/js/plugins/flatpickr/flatpickr.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/assets/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css"
+    />
+
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.min.css" />
+
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.38/moment-timezone-with-data.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Page Container -->
+
+    <div
+      id="page-container"
+      class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-narrow"
+    >
+      <%- include("./partials/Sidebar.ejs") %>
+      <!-- END Sidebar -->
+
+      <!-- Header -->
+      <%- include("./partials/Header.ejs") %>
+
+      <!-- END Header -->
+
+      <!-- Main Container -->
+      <main id="main-container">
+        <!-- Hero -->
+        <div class="bg-body-light">
+          <div class="content content-full">
+            <div
+              class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2"
+            >
+              <div class="flex-grow-1">
+                <h1 class="h3 fw-bold mb-1">Schedule</h1>
+                <h2 class="fs-base lh-base fw-medium text-muted mb-0">
+                  Add or Edit Streams
+                </h2>
+              </div>
+              <nav
+                class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3"
+                aria-label="breadcrumb"
+              >
+                <ol class="breadcrumb breadcrumb-alt">
+                  <li class="breadcrumb-item">
+                    <a href="/admin" class="link-fx">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <a href="/admin/schedule" class="link-fx">Schedule</a>
+                  </li>
+
+                  <li class="breadcrumb-item">Manage Schedule</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- END Hero -->
+
+        <!-- Page Content -->
+        <div class="content">
+          <div class="row">
+            <% if(messages.success){ %>
+
+            <div class="col-12">
+              <div
+                class="alert alert-success d-flex align-items-center"
+                role="alert"
+              >
+                <div class="flex-shrink-0">
+                  <i class="fa fa-fw fa-check"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <p class="mb-0"><%= messages.success %></p>
+                </div>
+              </div>
+            </div>
+
+            <% } %>
+
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-alt-primary push"
+                data-bs-toggle="modal"
+                data-bs-target="#new-stream-modal"
+              >
+                Add New Stream
+              </button>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <% if(schedule.schedule.length){ %>
+            <div class="col-12">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                  <h3 class="block-title">
+                    Total Streams : <%= schedule.schedule.length %>
+                  </h3>
+                </div>
+                <div class="block-content p-3">
+                  <div class="table-responsive p-1">
+                    <table
+                      class="table table-vcenter table-hover table-bordered"
+                      id="myTable"
+                    >
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Category</th>
+                          <th>League</th>
+                          <th>Opponent 1</th>
+                          <th>Opponent 2</th>
+                          <th>Start Time</th>
+                          <th>Channels</th>
+                          <th style="width: 100px" class="text-center">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% schedule.schedule.forEach((stream, index)=>{ %>
+
+                        <tr>
+                          <th scope="row"><%= index+1 %></th>
+                          <td><%= stream.category.name%></td>
+                          <td><%= stream.league.name %></td>
+                          <td><%= stream.team1.teamName %></td>
+                          <td><%= stream.team2.teamName %></td>
+
+                          <td>
+                            <%= moment(stream.startTime).format("HH:mm") %>
+                          </td>
+                          <td>
+                            <% stream.links.forEach((link, index)=>{ %>
+
+                            <span
+                              class="badge bg-primary pt-1 rounded-1 copyToClipBoard"
+                              style="cursor: pointer"
+                              onclick="copyToClipBoard(`/<%=schedule.objId%>/watch/<%= stream.urlString %>/stream-<%= index+1 %>`)"
+                              ><%= link.name %></span
+                            >
+
+                            <% }) %>
+                          </td>
+
+                          <td class="text-center">
+                            <div class="btn-group">
+                              <button
+                                type="button"
+                                class="btn btn-sm btn-alt-secondary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#edit-stream-modal"
+                                onclick="getStream('<%= stream.team1.teamName %>', '<%= stream.team2.teamName %>', <%= JSON.stringify(stream.links) %>, '<%= stream.category._id %>', '<%= stream.league.name %>' , '<%= stream._id %>', '<%= stream.startTime %>', '<%= stream.endTime %>')"
+                              >
+                                <i class="fa fa-fw fa-pencil-alt"></i>
+                              </button>
+                              <a
+                                href="/admin/delete-stream/<%= schedule._id %>/<%= stream._id %>"
+                                class="btn btn-sm btn-alt-secondary"
+                              >
+                                <i class="fa fa-fw fa-times"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }else{ %>
+
+            <div class="col-12">
+              <div
+                class="alert alert-danger d-flex align-items-center justify-content-between"
+                role="alert"
+              >
+                <div class="flex-shrink-0">
+                  <i class="fa fa-fw fa-times-circle"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <p class="mb-0">Streams Not Found</p>
+                </div>
+              </div>
+            </div>
+
+            <% } %>
+          </div>
+        </div>
+        <!-- END Page Content -->
+      </main>
+      <!-- END Main Container -->
+
+      <!-- Footer -->
+      <%- include("./partials/Footer.ejs") %>
+      <!-- END Footer -->
+    </div>
+    <!-- END Page Container -->
+
+    <!--
+        OneUI JS
+
+        Core libraries and functionality
+        webpack is putting everything together at /assets/_js/main/app.js
+    -->
+
+    <datalist id="leagueList"> </datalist>
+
+    <datalist id="teamsList"> </datalist>
+
+    <div class="modal" id="new-stream-modal">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="block block-rounded block-transparent mb-0">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">Add New Stream</h3>
+              <div class="block-options">
+                <button
+                  type="button"
+                  class="btn-block-option"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <form
+              action="/admin/schedule/new-stream/<%= schedule._id %>"
+              method="post"
+            >
+              <div class="block-content">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Event Starting Time <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter Event Starting Time"
+                        value="00"
+                        name="startTime"
+                        id="time-pick"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <div class="d-flex align-items-center gap-1">
+                        <label class="form-label"
+                          >Event Ending Time <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="endTimeDisableSwitcher"
+                          />
+                        </div>
+                      </div>
+
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter Event Starting Time"
+                        value="00"
+                        name="endTime"
+                        id="end-time-pick"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Category <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        name="category"
+                        class="form-select categories"
+                        style="width: 100%"
+                        id="categorySelect"
+                        required
+                      >
+                        <option value="">Select Category / Sport</option>
+                        az Z <% categories.forEach((category)=>{ %>
+
+                        <option value="<%= category._id %>">
+                          <%= category.name %>
+                        </option>
+
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >League Name <span class="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="leagueName"
+                        placeholder="EPL, Championship ..."
+                        autocomplete="off"
+                        list="leagueList"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Opponent 1 <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="team1"
+                        placeholder="Man United ..."
+                        required
+                        autocomplete="off"
+                        list="teamsList"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Opponent 2 <span class="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="team2"
+                        placeholder="Liverpool ..."
+                        autocomplete="off"
+                        list="teamsList"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Channel Link <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        class="form-select"
+                        style="width: 100%"
+                        multiple
+                        name="links"
+                        required
+                        id="channelSelect"
+                      >
+                        <option value=""></option>
+
+                        <% channels.forEach((channel)=>{ %>
+
+                        <option value="<%= channel._id %>">
+                          <%= channel.name %>
+                        </option>
+
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="block-content block-content-full text-end bg-body rounded"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-alt-secondary me-1"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-sm btn-primary">
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="edit-stream-modal">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="block block-rounded block-transparent mb-0">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">Edit Stream</h3>
+              <div class="block-options">
+                <button
+                  type="button"
+                  class="btn-block-option"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <form action="" method="post" id="editForm">
+              <div class="block-content">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Event Starting Time <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter Event Starting Time"
+                        value="00"
+                        name="startTime"
+                        id="edit-time-pick"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <div class="d-flex align-items-center gap-1">
+                        <label class="form-label"
+                          >Event Ending Time <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="edit-endTimeDisableSwitcher"
+                          />
+                        </div>
+                      </div>
+
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Enter Event Starting Time"
+                        value="00"
+                        name="endTime"
+                        id="end-edit-time-pick"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Category <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        name="category"
+                        class="form-select categories"
+                        style="width: 100%"
+                        id="edit-categorySelect"
+                        required
+                      >
+                        <option value="">Select Category / Sport</option>
+                        az Z <% categories.forEach((category)=>{ %>
+
+                        <option value="<%= category._id %>">
+                          <%= category.name %>
+                        </option>
+
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >League Name <span class="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="leagueName"
+                        placeholder="EPL, Championship ..."
+                        autocomplete="off"
+                        list="leagueList"
+                        name="leagueName"
+                        id="leagueName"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Opponent 1 <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="team1"
+                        placeholder="Man United ..."
+                        required
+                        autocomplete="off"
+                        list="teamsList"
+                        id="team1"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Opponent 2 <span class="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="team2"
+                        placeholder="Liverpool ..."
+                        autocomplete="off"
+                        list="teamsList"
+                        id="team2"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    <div class="mb-4">
+                      <label class="form-label"
+                        >Channel Link <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        class="form-select"
+                        style="width: 100%"
+                        multiple
+                        name="links"
+                        required
+                        id="edit-channelSelect"
+                        required
+                      >
+                        <option value=""></option>
+
+                        <% channels.forEach((channel)=>{ %>
+
+                        <option value="<%= channel._id %>">
+                          <%= channel.name %>
+                        </option>
+
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="block-content block-content-full text-end bg-body rounded"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-alt-secondary me-1"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-sm btn-primary">
+                  Edit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/oneui.app.min.js"></script>
+    <script src="/assets/js/lib/jquery.min.js"></script>
+
+    <script src="/assets/js/plugins/select2/js/select2.full.min.js"></script>
+    <script src="/assets/js/plugins/flatpickr/flatpickr.min.js"></script>
+
+    <script src="/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+      new DataTable("#myTable");
+
+      $(
+        "#time-pick, #edit-time-pick, #end-time-pick, #end-edit-time-pick"
+      ).flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        allowInput: true,
+      });
+
+      $("#end-time-pick").prop("disabled", true);
+      $("#end-time-pick").val("Disabled");
+
+      $("#endTimeDisableSwitcher").on("change", function () {
+        if (!$(this).is(":checked")) {
+          $("#end-time-pick").prop("disabled", true);
+          $("#end-time-pick").val("Disabled");
+        } else {
+          $("#end-time-pick").prop("disabled", false);
+          $("#end-time-pick").val("00:00");
+        }
+      });
+
+      $("#edit-endTimeDisableSwitcher").on("change", function () {
+        if (!$(this).is(":checked")) {
+          $("#end-edit-time-pick").prop("disabled", true);
+          $("#end-edit-time-pick").val("Disabled");
+        } else {
+          $("#end-edit-time-pick").prop("disabled", false);
+          $("#end-edit-time-pick").val("00:00");
+        }
+      });
+
+      $("#channelSelect").select2({
+        dropdownParent: "#new-stream-modal",
+      });
+
+      $("#edit-channelSelect").select2({
+        dropdownParent: "#edit-stream-modal",
+      });
+
+      function getStream(
+        team1,
+        team2,
+        links,
+        category,
+        leagueName,
+        id,
+        startTime,
+        endTime
+      ) {
+        // Set the title input value
+        $("#editForm").attr(
+          "action",
+          `/admin/schedule/edit-stream/<%= schedule._id %>/${id}`
+        );
+
+        $("#edit-time-pick").val(
+          moment(startTime).tz("Europe/London").format("HH:mm")
+        );
+
+        if (endTime) {
+          $("#edit-endTimeDisableSwitcher").prop("checked", true);
+
+          $("#end-edit-time-pick").val(
+            moment(endTime).tz("Europe/London").format("HH:mm")
+          );
+        } else {
+          $("#edit-endTimeDisableSwitcher").prop("checked", false);
+
+          $("#end-edit-time-pick").prop("disabled", true);
+          $("#end-edit-time-pick").val("Disabled");
+        }
+
+        $("#team1").val(team1);
+        $("#team2").val(team2);
+        $("#leagueName").val(leagueName);
+
+        $("#edit-categorySelect").val(category).trigger("change");
+
+        links.forEach((link) => {
+          $("#edit-channelSelect").val(link._id).trigger("change");
+        });
+      }
+
+      $(".categories").on("change", function () {
+        $("#leagueList").empty();
+        $("#teamsList").empty();
+
+        $.ajax({
+          url: `/admin/get-lists/${$(this).val()}`,
+          method: "POST",
+          dataType: "json",
+          success: function (data) {
+            data.leagues.forEach((league) => {
+              $("#leagueList").append(
+                $(`<option value="${league.name}"></option>`)
+              );
+            });
+
+            data.teams.forEach((team) => {
+              $("#teamsList").append(
+                $(`<option value="${team.teamName}"></option>`)
+              );
+            });
+          },
+        });
+      });
+
+      $(".copyToClipBoard").on("click", function () {
+        $(this).addClass("bg-danger");
+      });
+
+      function copyToClipBoard(url) {
+        const stream_url = window.location.origin + url;
+
+        window.navigator.clipboard.writeText(stream_url);
+      }
+    </script>
+  </body>
+</html>
