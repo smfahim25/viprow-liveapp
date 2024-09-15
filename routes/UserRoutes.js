@@ -430,8 +430,7 @@ router.get(
 
 router.get("/:scheduleId/watch/:stream", async (req, res, next) => {
   try {
-    const { scheduleId, streamId } = req.params;
-
+    const { scheduleId } = req.params;
     const schedule = await Schedule.findOne({ objId: scheduleId }).catch(
       (err) => {
         return res.status(404).render("error/404.ejs");
@@ -466,6 +465,7 @@ router.get("/:scheduleId/watch/:stream", async (req, res, next) => {
       title,
       category: category.name,
       embed,
+      scheduleId,
       findTimeLeft,
       Stream,
       moment,
